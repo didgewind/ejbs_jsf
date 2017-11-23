@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
+		 http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+
+	<display-name>jsf simple</display-name>
+	<description>jsf simple</description>
+
+	<context-param>
+		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+		<param-value>server</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>javax.faces.PROJECT_STAGE</param-name>
+		<param-value>Development</param-value>
+	</context-param>
+
+	<!-- Para poder comentar jsf como si fuera html -->
+	<context-param>
+		<param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	
+	<!-- Faces Servlet -->
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.xhtml</url-pattern>
+	</servlet-mapping>
+
+<!-- Seguridad -->
+     <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Páginas protegidas empleados</web-resource-name>
+            <url-pattern>/gestionaempleados.xhtml</url-pattern>
+            <url-pattern>/logoutServlet</url-pattern>
+        </web-resource-collection>
+ 
+        <auth-constraint>
+            <role-name>ROLE_ADMIN</role-name>
+            <role-name>ROLE_GUEST</role-name>
+        </auth-constraint>
+
+    </security-constraint>
+ 
+    <login-config>
+        <auth-method>BASIC</auth-method>
+        <realm-name>teac-policy</realm-name>
+    </login-config>
+ 
+    <security-role>
+        <role-name>ROLE_ADMIN</role-name>
+    </security-role>
+ 
+    <security-role>
+        <role-name>ROLE_GUEST</role-name>
+    </security-role>
+ 
+    <welcome-file-list>
+        <welcome-file>/index.xhtml</welcome-file>
+    </welcome-file-list>
+ 
+    <session-config>
+        <!-- Session timeout after X MINUTES after no user interaction. -->
+        <session-timeout>15</session-timeout>
+    </session-config>
+
+</web-app>
+

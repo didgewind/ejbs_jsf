@@ -1,0 +1,64 @@
+CONFIGURACIÓN DE JBOSS PARA ESTE PROYECTO
+=========================================
+
+* DataSource mysql:
+
+- En $JBOSS_HOME/modules creamos la ruta com/mysql/main
+
+- Copiamos en esta ruta el conector mysql
+
+- Creamos en esta ruta un fichero module.xml con el siguiente contenido:
+
+	<?xml version="1.0" encoding="UTF-8"?>
+	<module xmlns="urn:jboss:module:1.1" name="com.mysql">
+		<resources>
+			<resource-root path="mysql-connector-java-5.1.35.jar"/>
+		</resources>
+		<dependencies><module name="javax.api"/></dependencies>
+	</module>
+	
+- Modificamos el fichero $JBOSS_HOME/standalone/configuration/standalone.xml añadiendo, en la sección
+datasources,
+
+                <datasource jndi-name="java:jboss/datasources/EmpleadosDS" pool-name="EmpleadosDS" enabled="true" use-java-context="true">
+                    <connection-url>jdbc:mysql://localhost:3306/empleados_simple</connection-url>
+                    <driver>mysql</driver>
+                    <security>
+                        <user-name>maza</user-name>
+                        <password>maza</password>
+                    </security>
+                </datasource>
+
+y dentro de esta misma sección, en la subsección drivers,
+
+                    <driver name="mysql" module="com.mysql">
+                        <driver-class>com.mysql.jdbc.Driver</driver-class>
+                    </driver>
+
+
+* Seguridad simple con declaración de usuarios, roles y passwords en ficheros planos:
+
+- Añadir en la sección security-domains del fichero l fichero $JBOSS_HOME/standalone/configuration/standalone.xml
+las siguientes líneas:
+
+                <security-domain name="teac-policy" cache-type="default">
+                    <authentication>
+                        <login-module code="org.jboss.security.auth.spi.UsersRolesLoginModule" flag="required">
+                            <module-option name="usersProperties" value="${jboss.server.config.dir}/users.properties"/>
+                            <module-option name="rolesProperties" value="${jboss.server.config.dir}/roles.properties"/>
+                        </login-module>
+                    </authentication>
+                </security-domain>
+
+- Crear los ficheros users.properties y roles.properties en la carpeta l fichero $JBOSS_HOME/standalone/configuration
+con el siguiente contenido:
+
+users.properties:
+----------------
+admin=adminPass
+made=madePass
+
+roles.properties:
+----------------
+admin=ROLE_ADMIN
+made=ROLE_GUEST

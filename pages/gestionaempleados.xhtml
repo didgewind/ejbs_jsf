@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+      
+<h:head>
+<title>Gestor de empl</title>
+</h:head>
+
+<h:body>
+
+	<h:form id="formEmpleados">
+
+
+		<h:panelGrid columns="2">
+			<h:outputLabel for="textCif" value="Cif" />
+			<h:inputText value="#{gestorEmpBean.cif}" id="textCif" />
+			<h:outputLabel for="textNombre" value="Nombre" />
+			<h:inputText value="#{gestorEmpBean.nombre}" id="textNombre"/>
+			<h:outputLabel for="textApellidos" value="Apellidos" />
+			<h:inputText value="#{gestorEmpBean.apellidos}" id="textApellidos" />
+			<h:outputLabel for="textEdad" value="Edad" />
+			<h:inputText value="#{gestorEmpBean.edad}" id="textEdad" />
+		</h:panelGrid>
+
+
+		<h:panelGrid columns="4">
+			<h:commandButton value="Recuperar"
+					actionListener="#{gestorEmpBean.getEmpleado}" />
+			<h:commandButton value="Insertar"
+					actionListener="#{gestorEmpBean.insertarEmpleado}" />
+			<h:commandButton value="Modificar"
+					actionListener="#{gestorEmpBean.modificarEmpleado}" />
+			<h:commandButton value="Eliminar"
+					actionListener="#{gestorEmpBean.eliminarEmpleado}" />
+		</h:panelGrid>
+</h:form>
+<h:outputLink value="index.xhtml">volver al índice</h:outputLink>
+
+<p>
+	<h:dataTable id="empleados"
+	    value="#{gestorEmpBean.empleados}"
+	    var="emp">
+	    <h:column>
+	        <f:facet name="header">
+	            <h:outputText value="CIF" />
+	        </f:facet>
+	        <h:outputText value="#{emp.cif}" />
+	    </h:column>
+	    <h:column>
+	        <f:facet name="header">
+	            <h:outputText value="NOMBRE" />
+	        </f:facet>
+	        <h:outputText value="#{emp.nombre}" />
+	    </h:column>
+	    <h:column>
+	        <f:facet name="header">
+	            <h:outputText value="APELLIDOS" />
+	        </f:facet>
+	        <h:outputText value="#{emp.apellidos}" />
+	    </h:column>
+	    <h:column>
+	        <f:facet name="header">
+	            <h:outputText value="EDAD" />
+	        </f:facet>
+	        <h:outputText value="#{emp.edad}" />
+	    </h:column>
+	</h:dataTable>
+</p>
+</h:body>
+</html>

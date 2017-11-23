@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+      
+<h:head>
+<title>Uso de ejbs</title>
+</h:head>
+
+<h:body>
+<h1>Página jsf para usar ejbs</h1>
+<p>En esta página estamos usando dos ejb's de sesión. El primero es un calculador stateless, el segundo
+un sumador stateful</p>
+<p>Cuando pulsemos el botón de sumar se realizarán dos cálculos. El primero hace uso del calculador stateless
+sumando todas las cifras que separemos por espacios en el primer campo de texto. El segundo añade al sumador
+stateful la cifra del segundo campo de texto.</p>
+<h:form>
+<h:panelGrid columns="2">
+<h:outputLabel for="textCalculador" value="Cifras a sumar (stateless) separadas por espacios:" />
+<h:inputText id="textCalculador" value="#{usaEjbsBean.cifrasASumar}"/>
+<h:outputLabel for="textSumador" value="Valor a añadir al bean sumador (stateful):" />
+<h:inputText id="textSumador" value="#{usaEjbsBean.add2Sumador}"/>
+<h:commandButton value="Computa" actionListener="#{usaEjbsBean.calcula}"/>
+</h:panelGrid>
+</h:form>
+<p>El resultado de la operación con el ejb calculator es #{usaEjbsBean.calculatorValue}</p>
+<p>El resultado de la operación con el ejb sumador es #{usaEjbsBean.sumadorValue}</p>
+<h:outputLink value="index.xhtml">volver al índice</h:outputLink>
+</h:body>
+</html>

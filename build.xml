@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!-- build.xml - buildfile jsf -->
+<project name="jsf gestor empleados" default="empaqueta ear" basedir=".">
+
+	<!-- Directorios -->
+	<property name="build.war.dir" value="build war"/>
+	<property name="config.war.dir" value="config war"/>
+	<property name="file.war.name" value="jsf_empleados.war"/>
+	<property name="bin.dir" value="bin"/>
+	<property name="pages.dir" value="pages"/>
+
+	<property name="config.ear.dir" value="config ear"/>
+	<property name="build.ear.dir" value="build ear"/>
+	<property name="file.ear.name" value="jsf_empleados.ear"/>
+
+	<property name="build.ejb.dir" value="build ejb"/>
+	<property name="config.ejb.dir" value="../ejb empleados/config"/>
+	<property name="file.ejb.name" value="ejb_empleados.jar"/>
+	<property name="bin.ejb.dir" value="../ejb empleados/bin"/>	
+
+	<property name="deploy.dir" value="/home/made/EAP-6.1.0/jboss-eap-6.1/standalone/deployments/"/>
+
+	<target name="clean war" description="Limpia todos los ficheros generados.">
+		<delete dir="${build.war.dir}"/>
+		<delete file="${file.war.name}"/>
+	</target>
+	
+	<target name="copia war" description="Copia los archivos war a su sitio">
+		<!-- APP WEB -->
+		<copy todir="${build.war.dir}/WEB-INF">
+			<fileset dir="${config.war.dir}"/>
+		</copy>
+		<copy todir="${build.war.dir}">
+			<fileset dir="${pages.dir}"/>
+		</copy>
+		<copy todir="${build.war.dir}/WEB-INF/classes">
+			<fileset dir="${bin.dir}" />
+		</copy>
+	</target>
+	
+	<target name="empaqueta war" depends="copia war" description="Empaqueta todos los contenidos">
+		<jar jarfile="${file.war.name}" basedir="${build.war.dir}"/>
+	</target>
+
+	<target name="clean ejb" description="Limpia todos los ficheros generados.">
+		<delete dir="${build.ejb.dir}"/>
+		<delete file="${file.ejb.name}"/>
+		<mkdir dir="${build.ejb.dir}"/>
+	</target>
+	
+	<target name="copia ejb" description="Copia los archivos a su sitio">
+		<copy todir="${build.ejb.dir}/META-INF">
+			<fileset dir="${config.ejb.dir}"/>
+		</copy>
+		<copy todir="${build.ejb.dir}">
+			<fileset dir="${bin.ejb.dir}" />
+		</copy>
+	</target>
+	
+	<target name="empaqueta ejb" depends="copia ejb" description="Empaqueta todos los contenidos">
+		<jar jarfile="${file.ejb.name}" basedir="${build.ejb.dir}"/>
+	</target>
+	
+	<target name="clean all" depends="clean war, clean ejb" description="Limpia todos los ficheros generados.">
+		<delete dir="${build.ear.dir}"/>
+		<delete file="${deploy.dir}/${file.ear.name}"/>
+		<delete file="${file.ear.name}"/>
+	</target>
+	
+	<target name="copia ear" depends="empaqueta ejb, empaqueta war" description="Copia los archivos ear a su sitio">
+		<copy todir="${build.ear.dir}/META-INF">
+			<fileset dir="${config.ear.dir}"/>
+		</copy>
+		<copy todir="${build.ear.dir}" file="${file.war.name}" />
+		<copy todir="${build.ear.dir}" file="${file.ejb.name}" />
+	</target>
+	
+	<target name="empaqueta ear" depends="copia ear" description="Empaqueta todos los contenidos">
+		<jar jarfile="${file.ear.name}" basedir="${build.ear.dir}"/>
+		<copy todir="${deploy.dir}" file="${file.ear.name}"/>
+	</target>
+
+	<target name="all" depends="clean all, empaqueta ear" description="limpia, copia y empaqueta"/>
+</project>

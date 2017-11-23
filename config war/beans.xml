@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+  http://java.sun.com/xml/ns/javaee/beans_1_0.xsd">
+
+<!-- Este decorador e interceptor no existen en este proyecto -->
+<!--  	<decorators>
+		<class>profe.web.filters.NegocioDecorator</class>
+	</decorators>
+
+	<interceptors>
+		<class>profe.web.filters.NegocioInterceptor</class>
+	</interceptors> -->
+	
+	<!-- Descomentaremos este alternative si queremos que la app tire del dao fake -->
+<!--	<alternatives>
+		<class>made.empleados.daos.EmpDAOFake</class>
+	</alternatives>-->
+
+</beans>

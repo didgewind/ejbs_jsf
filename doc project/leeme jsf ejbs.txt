@@ -1,0 +1,34 @@
+Proyecto jsf para probar los ejb's.
+
+En el raíz se nos muestran tres opciones: usar ejb's de sesión, gestionar empleados o cerrar la sesión.
+
+- Usar ejb's de sesión: página 01_sl_calcula.xhtml que utiliza UsaEjbsBean. Utilizan 
+dos ejbs de sesión, calculatorEJB (stateless) para realizar una operación y mostrar el resultado
+y KeepTrackEJB (stateful) para mantener una suma de enteros.
+
+- gestionaempleados.xhtml y GestorEmpBean gestionan los empleados (ejb's de entidad), utilizando uno de
+dos DAOS o el bean de sesión EmpleadosNegocioEJB definido en el proyecto de ejbs (quien a su vez utiliza el DAO
+JTA DAOEmpJPACMT o el DAO Fake). Para determinar el dao final definimos primero en GestorEmpBean el valor de 
+workingWith, que puede tomar los valores de bean de sesión o dao, y si es dao usamos qualifiers para inyectar
+un dao fake o el dao jpa local. Si elegimos usar el ejb de sesión el dao a utilizar se determina en el propio
+ejb de sesión EmpleadosNegocioEJB.
+
+Los dos daos que se pueden inyectar directamente a GestorEmpBean son los siguientes:
+
+	- EmpDAOFake, bd en memoria
+	- DAOEmpJPALocalTx, dao JPA utilizando transacciones locales
+	
+Para determinar cuál de los dos daos se inyecta en GestorEmpBean usamos qualifiers
+(del paquete made.empleados.daos.qualifiers)
+
+Lo suyo sería modificar el proyecto y meter una capa de negocio que no fueran ejb's de sesión
+que pudiera utilizar el dao fake o el jpa local, y al GestorEmpBean inyectarle el ejb de sesión
+y el POJO de negocio y determinar cuál usa de alguna manera.
+
+Usamos también seguridad en capa web y en capa ejb. La seguridad en capa web está declarada
+en los ficheros jboss-web.xml y web.xml, y consiste en proteger el fichero gestionaempleados.xhtml
+para que sólo tengan acceso usuarios autenticados y que pertenezcan a los roles ROLE_ADMIN o ROLE_GUEST
+(estos roles y sus usuarios están definidos a nivel de contenedor JBOSS, ver documento config jboss.txt).
+La seguridad en la capa ejb protege el EJB correspondiente (EmpleadosNegocioEJB) para que sólo
+tengan acceso a él estos dos mismos roles, pero además añade la restricción de que sólo el ROLE_ADMIN
+puede eliminar empleados.

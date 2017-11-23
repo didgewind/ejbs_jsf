@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+      
+<h:head>
+</h:head>
+
+<h:body>
+<p>
+<h:form>
+<h:panelGrid columns="3" cellpadding="10px">
+	<h:outputLink value="01_sl_calcula.xhtml">púlsame para usar un par de ejb's de sesión</h:outputLink>
+	<h:outputLink value="gestionaempleados.xhtml">Gestionar empleados</h:outputLink>
+	<h:commandLink immediate="true" value="Cerrar la sesión" action="#{usaEjbsBean.logout}" />
+<!-- 	<h:outputLink value="logoutServlet">cerrar sesión</h:outputLink>
+ -->
+</h:panelGrid>
+</h:form>
+</p>
+</h:body>
+</html>
